@@ -1,10 +1,6 @@
-/**
- * A doubly linked list implementation.
- *
- * @author William Fiset, william.alexandre.fiset@gmail.com
- */
 package com.williamfiset.datastructures.linkedlist;
 
+@SuppressWarnings("NullableProblems")
 public class DoublyLinkedList<T> implements Iterable<T> {
   private int size = 0;
   private Node<T> head = null;
@@ -15,7 +11,7 @@ public class DoublyLinkedList<T> implements Iterable<T> {
     private T data;
     private Node<T> prev, next;
 
-    public Node(T data, Node<T> prev, Node<T> next) {
+    Node(T data, Node<T> prev, Node<T> next) {
       this.data = data;
       this.prev = prev;
       this.next = next;
@@ -36,7 +32,7 @@ public class DoublyLinkedList<T> implements Iterable<T> {
       tracker.data = null;
       tracker = next;
     }
-    head = tail = tracker = null;
+    head = tail = null;
     size = 0;
   }
 
@@ -58,9 +54,9 @@ public class DoublyLinkedList<T> implements Iterable<T> {
   // Add a node to the tail of the linked list, O(1)
   public void addLast(T elem) {
     if (isEmpty()) {
-      head = tail = new Node<T>(elem, null, null);
+      head = tail = new Node<>(elem, null, null);
     } else {
-      tail.next = new Node<T>(elem, tail, null);
+      tail.next = new Node<>(elem, tail, null);
       tail = tail.next;
     }
     size++;
@@ -69,9 +65,9 @@ public class DoublyLinkedList<T> implements Iterable<T> {
   // Add an element to the beginning of this linked list, O(1)
   public void addFirst(T elem) {
     if (isEmpty()) {
-      head = tail = new Node<T>(elem, null, null);
+      head = tail = new Node<>(elem, null, null);
     } else {
-      head.prev = new Node<T>(elem, null, head);
+      head.prev = new Node<>(elem, null, head);
       head = head.prev;
     }
     size++;
@@ -147,7 +143,7 @@ public class DoublyLinkedList<T> implements Iterable<T> {
 
     // Memory cleanup
     node.data = null;
-    node = node.prev = node.next = null;
+    node.prev = node.next = null;
 
     --size;
 
@@ -181,7 +177,7 @@ public class DoublyLinkedList<T> implements Iterable<T> {
 
   // Remove a particular value in the linked list, O(n)
   public boolean remove(Object obj) {
-    Node<T> tracker = head;
+    Node<T> tracker;
 
     // Support searching for null
     if (obj == null) {
@@ -261,7 +257,7 @@ public class DoublyLinkedList<T> implements Iterable<T> {
     sb.append("[ ");
     Node<T> tracker = head;
     while (tracker != null) {
-      sb.append(tracker.data + ", ");
+      sb.append(tracker.data).append(", ");
       tracker = tracker.next;
     }
     sb.append(" ]");
