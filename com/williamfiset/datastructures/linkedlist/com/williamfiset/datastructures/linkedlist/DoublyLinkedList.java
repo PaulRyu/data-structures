@@ -29,14 +29,14 @@ public class DoublyLinkedList<T> implements Iterable<T> {
 
   // Empty this linked list, O(n)
   public void clear() {
-    Node<T> trav = head;
-    while (trav != null) {
-      Node<T> next = trav.next;
-      trav.prev = trav.next = null;
-      trav.data = null;
-      trav = next;
+    Node<T> tracker = head;
+    while (tracker != null) {
+      Node<T> next = tracker.next;
+      tracker.prev = tracker.next = null;
+      tracker.data = null;
+      tracker = next;
     }
-    head = tail = trav = null;
+    head = tail = tracker = null;
     size = 0;
   }
 
@@ -163,39 +163,39 @@ public class DoublyLinkedList<T> implements Iterable<T> {
     }
 
     int i;
-    Node<T> trav;
+    Node<T> tracker;
 
     // Search from the front of the list
     if (index < size / 2) {
-      for (i = 0, trav = head; i != index; i++) {
-        trav = trav.next;
+      for (i = 0, tracker = head; i != index; i++) {
+        tracker = tracker.next;
       }
       // Search from the back of the list
     } else
-      for (i = size - 1, trav = tail; i != index; i--) {
-        trav = trav.prev;
+      for (i = size - 1, tracker = tail; i != index; i--) {
+        tracker = tracker.prev;
       }
 
-    return remove(trav);
+    return remove(tracker);
   }
 
   // Remove a particular value in the linked list, O(n)
   public boolean remove(Object obj) {
-    Node<T> trav = head;
+    Node<T> tracker = head;
 
     // Support searching for null
     if (obj == null) {
-      for (trav = head; trav != null; trav = trav.next) {
-        if (trav.data == null) {
-          remove(trav);
+      for (tracker = head; tracker != null; tracker = tracker.next) {
+        if (tracker.data == null) {
+          remove(tracker);
           return true;
         }
       }
       // Search for non null object
     } else {
-      for (trav = head; trav != null; trav = trav.next) {
-        if (obj.equals(trav.data)) {
-          remove(trav);
+      for (tracker = head; tracker != null; tracker = tracker.next) {
+        if (obj.equals(tracker.data)) {
+          remove(tracker);
           return true;
         }
       }
@@ -206,19 +206,19 @@ public class DoublyLinkedList<T> implements Iterable<T> {
   // Find the index of a particular value in the linked list, O(n)
   public int indexOf(Object obj) {
     int index = 0;
-    Node<T> trav = head;
+    Node<T> tracker = head;
 
     // Support searching for null
     if (obj == null) {
-      for (; trav != null; trav = trav.next, index++) {
-        if (trav.data == null) {
+      for (; tracker != null; tracker = tracker.next, index++) {
+        if (tracker.data == null) {
           return index;
         }
       }
       // Search for non null object
     } else
-      for (; trav != null; trav = trav.next, index++) {
-        if (obj.equals(trav.data)) {
+      for (; tracker != null; tracker = tracker.next, index++) {
+        if (obj.equals(tracker.data)) {
           return index;
         }
       }
@@ -234,17 +234,17 @@ public class DoublyLinkedList<T> implements Iterable<T> {
   @Override
   public java.util.Iterator<T> iterator() {
     return new java.util.Iterator<T>() {
-      private Node<T> trav = head;
+      private Node<T> tracker = head;
 
       @Override
       public boolean hasNext() {
-        return trav != null;
+        return tracker != null;
       }
 
       @Override
       public T next() {
-        T data = trav.data;
-        trav = trav.next;
+        T data = tracker.data;
+        tracker = tracker.next;
         return data;
       }
 
@@ -259,10 +259,10 @@ public class DoublyLinkedList<T> implements Iterable<T> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("[ ");
-    Node<T> trav = head;
-    while (trav != null) {
-      sb.append(trav.data + ", ");
-      trav = trav.next;
+    Node<T> tracker = head;
+    while (tracker != null) {
+      sb.append(tracker.data + ", ");
+      tracker = tracker.next;
     }
     sb.append(" ]");
     return sb.toString();
