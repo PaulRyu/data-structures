@@ -10,12 +10,12 @@ import org.junit.*;
 
 public class LinkedListTest {
 
-  static final int LOOPS = 10000;
-  static final int TEST_SZ = 40;
-  static final int NUM_NULLS = TEST_SZ / 5;
-  static final int MAX_RAND_NUM = 250;
+  private static final int LOOPS = 10000;
+  private static final int TEST_SZ = 40;
+  private static final int NUM_NULLS = TEST_SZ / 5;
+  private static final int MAX_RAND_NUM = 250;
 
-  DoublyLinkedList<Integer> list;
+  private DoublyLinkedList<Integer> list;
 
   @Before
   public void setup() {
@@ -67,28 +67,28 @@ public class LinkedListTest {
   @Test
   public void testRemoveFirst() {
     list.addFirst(3);
-    assertTrue(list.removeFirst() == 3);
+    assertEquals(3, (int) list.removeFirst());
     assertTrue(list.isEmpty());
   }
 
   @Test
   public void testRemoveLast() {
     list.addLast(4);
-    assertTrue(list.removeLast() == 4);
+    assertEquals(4, (int) list.removeLast());
     assertTrue(list.isEmpty());
   }
 
   @Test
   public void testPeekFirst() {
     list.addFirst(4);
-    assertTrue(list.peekFirst() == 4);
+    assertEquals(4, (int) list.peekFirst());
     assertEquals(list.size(), 1);
   }
 
   @Test
   public void testPeekLast() {
     list.addLast(4);
-    assertTrue(list.peekLast() == 4);
+    assertEquals(4, (int) list.peekLast());
     assertEquals(list.size(), 1);
   }
 
@@ -97,38 +97,38 @@ public class LinkedListTest {
 
     // 5
     list.addFirst(5);
-    assertTrue(list.peekFirst() == 5);
-    assertTrue(list.peekLast() == 5);
+    assertEquals(5, (int) list.peekFirst());
+    assertEquals(5, (int) list.peekLast());
 
     // 6 - 5
     list.addFirst(6);
-    assertTrue(list.peekFirst() == 6);
-    assertTrue(list.peekLast() == 5);
+    assertEquals(6, (int) list.peekFirst());
+    assertEquals(5, (int) list.peekLast());
 
     // 7 - 6 - 5
     list.addFirst(7);
-    assertTrue(list.peekFirst() == 7);
-    assertTrue(list.peekLast() == 5);
+    assertEquals(7, (int) list.peekFirst());
+    assertEquals(5, (int) list.peekLast());
 
     // 7 - 6 - 5 - 8
     list.addLast(8);
-    assertTrue(list.peekFirst() == 7);
-    assertTrue(list.peekLast() == 8);
+    assertEquals(7, (int) list.peekFirst());
+    assertEquals(8, (int) list.peekLast());
 
     // 7 - 6 - 5
     list.removeLast();
-    assertTrue(list.peekFirst() == 7);
-    assertTrue(list.peekLast() == 5);
+    assertEquals(7, (int) list.peekFirst());
+    assertEquals(5, (int) list.peekLast());
 
     // 7 - 6
     list.removeLast();
-    assertTrue(list.peekFirst() == 7);
-    assertTrue(list.peekLast() == 6);
+    assertEquals(7, (int) list.peekFirst());
+    assertEquals(6, (int) list.peekLast());
 
     // 6
     list.removeFirst();
-    assertTrue(list.peekFirst() == 6);
-    assertTrue(list.peekLast() == 6);
+    assertEquals(6, (int) list.peekFirst());
+    assertEquals(6, (int) list.peekLast());
   }
 
   @Test
@@ -159,8 +159,8 @@ public class LinkedListTest {
     list.add(4);
     list.removeAt(0);
     list.removeAt(2);
-    assertTrue(list.peekFirst() == 2);
-    assertTrue(list.peekLast() == 3);
+    assertEquals(2, (int) list.peekFirst());
+    assertEquals(3, (int) list.peekLast());
     list.removeAt(1);
     list.removeAt(0);
     assertEquals(list.size(), 0);
@@ -192,7 +192,7 @@ public class LinkedListTest {
       list.clear();
       LIST.clear();
 
-      List<Integer> randNums = genRandList(TEST_SZ);
+      List<Integer> randNums = genRandList();
       for (Integer value : randNums) {
         LIST.add(value);
         list.add(value);
@@ -200,9 +200,8 @@ public class LinkedListTest {
 
       Collections.shuffle(randNums);
 
-      for (int i = 0; i < randNums.size(); i++) {
+      for (Integer rm_val : randNums) {
 
-        Integer rm_val = randNums.get(i);
         assertEquals(LIST.remove(rm_val), list.remove(rm_val));
         assertEquals(LIST.size(), list.size());
 
@@ -247,7 +246,7 @@ public class LinkedListTest {
       list.clear();
       LIST.clear();
 
-      List<Integer> randNums = genRandList(TEST_SZ);
+      List<Integer> randNums = genRandList();
 
       for (Integer value : randNums) {
         LIST.add(value);
@@ -280,7 +279,7 @@ public class LinkedListTest {
       LIST.clear();
       list.clear();
 
-      List<Integer> randNums = genUniqueRandList(TEST_SZ);
+      List<Integer> randNums = genUniqueRandList();
 
       for (Integer value : randNums) {
         LIST.add(value);
@@ -289,9 +288,8 @@ public class LinkedListTest {
 
       Collections.shuffle(randNums);
 
-      for (int i = 0; i < randNums.size(); i++) {
+      for (Integer elem : randNums) {
 
-        Integer elem = randNums.get(i);
         Integer index1 = LIST.indexOf(elem);
         Integer index2 = list.indexOf(elem);
 
@@ -306,18 +304,18 @@ public class LinkedListTest {
   }
 
   // Generate a list of random numbers
-  static List<Integer> genRandList(int sz) {
-    List<Integer> lst = new ArrayList<>(sz);
-    for (int i = 0; i < sz; i++) lst.add((int) (Math.random() * MAX_RAND_NUM));
+  private static List<Integer> genRandList() {
+    List<Integer> lst = new ArrayList<>(LinkedListTest.TEST_SZ);
+    for (int i = 0; i < LinkedListTest.TEST_SZ; i++) lst.add((int) (Math.random() * MAX_RAND_NUM));
     for (int i = 0; i < NUM_NULLS; i++) lst.add(null);
     Collections.shuffle(lst);
     return lst;
   }
 
   // Generate a list of unique random numbers
-  static List<Integer> genUniqueRandList(int sz) {
-    List<Integer> lst = new ArrayList<>(sz);
-    for (int i = 0; i < sz; i++) lst.add(i);
+  private static List<Integer> genUniqueRandList() {
+    List<Integer> lst = new ArrayList<>(LinkedListTest.TEST_SZ);
+    for (int i = 0; i < LinkedListTest.TEST_SZ; i++) lst.add(i);
     for (int i = 0; i < NUM_NULLS; i++) lst.add(null);
     Collections.shuffle(lst);
     return lst;
